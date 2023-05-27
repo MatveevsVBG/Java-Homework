@@ -1,3 +1,9 @@
+// Дана строка sql-запроса "select * from students where ".
+// Сформируйте часть WHERE этого запроса, используя StringBuilder.
+// Данные для фильтрации приведены ниже в виде json-строки.
+// Если значение null, то параметр не должен попадать в запрос.
+// Параметры для фильтрации: {"name":"Ivanov", "country":"Russia", "city":"Moscow", "age":"null"}
+
 import java.util.Map;
 
 public class SqlQueryBuilder {
@@ -16,7 +22,7 @@ public class SqlQueryBuilder {
     }
 
     public static String buildWhereClause(Map<String, String> parameters) {
-        StringBuilder whereClause = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         boolean isFirstParameter = true;
 
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
@@ -25,14 +31,14 @@ public class SqlQueryBuilder {
 
             if (!value.equals("null")) {
                 if (!isFirstParameter) {
-                    whereClause.append(" and ");
+                    builder.append(" and ");
                 }
 
-                whereClause.append(key).append(" = '").append(value).append("'");
+                builder.append(key).append(" = '").append(value).append("'");
                 isFirstParameter = false;
             }
         }
 
-        return whereClause.toString();
+        return builder.toString();
     }
 }
